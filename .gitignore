@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+*.egg-info/
+results/
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars

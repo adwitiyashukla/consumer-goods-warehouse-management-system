@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dockhand-smoke
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: smoke
+          image: dockhand:ci
+          imagePullPolicy: IfNotPresent
+          command: ["dockhand", "sim", "--url", "http://dockhand:8000", "--until", "10:00", "--check"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dockhand-db
+                  key: DATABASE_URL

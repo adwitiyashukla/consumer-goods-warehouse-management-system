@@ -1,0 +1,85 @@
+[database]
+url = "postgresql+asyncpg://dockhand:dockhand@localhost:5434/dockhand"
+pool_size = 10
+echo = false
+
+[server]
+host = "0.0.0.0"
+port = 8000
+static_dir = "web/dist"
+demo_until = "13:00"
+
+[layout]
+aisles = 16
+bays_per_aisle = 20
+levels = 5
+bay_width_m = 2.8
+aisle_pitch_m = 6.0
+end_gap_m = 2.0
+dock_depth_m = 15.0
+depot_aisle = 0
+inbound_doors = 3
+outbound_doors = 4
+
+[catalog]
+skus = 480
+cases_per_pallet = [32, 96]
+shelf_life_days = [365, 1095]
+popularity_skew = 1.05
+
+[customers]
+count = 36
+lanes = 6
+min_shelf_life_days = [90, 240]
+
+[schedule]
+date = "2026-03-02"
+departures = ["08:30", "12:00", "15:30", "19:00"]
+lane_stagger_minutes = 20
+wave_lead_minutes = 150
+trailer_arrive_minutes = 90
+load_cutoff_minutes = 15
+inbound_trucks = 20
+inbound_first = "05:00"
+inbound_last = "17:00"
+pallets_per_truck = 26
+unload_minutes_per_pallet = 1.5
+door_turn_minutes = 10.0
+
+[picking]
+routing = "optimal"
+batching = "savings"
+full_pallets = true
+tour_capacity_m3 = 3.2
+tour_max_orders = 4
+walk_speed_mps = 1.4
+seconds_per_stop = 12.0
+seconds_per_case = 5.0
+
+[forklift]
+speed_mps = 2.0
+seconds_per_move = 75.0
+
+[slotting]
+policy = "velocity"
+a_share = 0.2
+b_share = 0.3
+replen_trigger = 0.3
+
+[sim]
+seed = 7
+start = "00:00"
+end = "23:00"
+pickers = 7
+drivers = 4
+orders = 216
+lines_per_order = [12, 44]
+cases_per_line = 6.0
+order_lead_hours = [6.0, 20.0]
+initial_days_of_stock = 3.0
+lot_age_days = [5, 150]
+count_tasks = 24
+count_error_rate = 0.08
+replen_every_minutes = 60
+poll_minutes = 10.0
+arrival_jitter_minutes = 20.0

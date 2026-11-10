@@ -1,0 +1,165 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[dev]"
+      - run: ruff check src tests load
+      - run: ruff format --check src tests load
+      - run: mypy
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12", "3.13"]
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: dockhand
+          POSTGRES_PASSWORD: dockhand
+          POSTGRES_DB: dockhand
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U dockhand"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      TEST_DATABASE_URL: postgresql://dockhand:dockhand@localhost:5432/dockhand
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: dockhand
+          POSTGRES_PASSWORD: dockhand
+          POSTGRES_DB: dockhand
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U dockhand"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      DATABASE_URL: postgresql://dockhand:dockhand@localhost:5432/dockhand
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: pip install -e .
+      - run: npm ci
+        working-directory: web
+      - run: npm run build
+        working-directory: web
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
+      - run: npx playwright test
+        working-directory: web
+
+  kind:
+    runs-on: ubuntu-latest
+    needs: [test, web]
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t dockhand:ci .
+      - uses: helm/kind-action@v1
+      - run: kind load docker-image dockhand:ci --name chart-testing
+      - run: kubectl apply -f deploy/k8s/postgres.yaml -f deploy/k8s/app.yaml
+      - run: kubectl rollout status statefulset/postgres --timeout=180s
+      - run: kubectl rollout status deployment/dockhand --timeout=300s
+      - run: kubectl apply -f deploy/k8s/smoke.yaml
+      - name: wait for the smoke job
+        run: |
+          for attempt in $(seq 1 120); do
+            passed=$(kubectl get job dockhand-smoke -o jsonpath='{.status.succeeded}')
+            failed=$(kubectl get job dockhand-smoke -o jsonpath='{.status.failed}')
+            if [ "$passed" = "1" ]; then exit 0; fi
+            if [ -n "$failed" ] && [ "$failed" != "0" ]; then exit 1; fi
+            sleep 5
+          done
+          exit 1
+      - if: always()
+        run: kubectl logs job/dockhand-smoke --tail=40
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/azure
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hashicorp/setup-terraform@v4
+      - run: terraform fmt -check
+      - run: terraform init -backend=false
+      - run: terraform validate
+
+  image:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [lint, test, web, e2e, kind, terraform]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/dockhand:latest
+            ghcr.io/${{ github.repository_owner }}/dockhand:${{ github.sha }}
