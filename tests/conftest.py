@@ -11,11 +11,11 @@ from sqlalchemy import text
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from dockhand.app import create_app
-from dockhand.config import Settings, async_url, load_settings
-from dockhand.db import make_engine, migrate, wipe
-from dockhand.generator import Plan, seed
-from dockhand.layout import Layout
+from wms.app import create_app
+from wms.config import Settings, async_url, load_settings
+from wms.db import make_engine, migrate, wipe
+from wms.generator import Plan, seed
+from wms.layout import Layout
 
 ROOT = Path(__file__).resolve().parents[1]
 

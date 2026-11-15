@@ -5,8 +5,8 @@ import httpx
 from fastapi import FastAPI
 from sqlalchemy import func, select
 
-from dockhand.generator import Plan
-from dockhand.models import Allocation, Customer, Location, OrderLine, Sku, Stock
+from wms.generator import Plan
+from wms.models import Allocation, Customer, Location, OrderLine, Sku, Stock
 
 SHIP_BY = datetime(2026, 3, 2, 13, 0, tzinfo=UTC).isoformat()
 

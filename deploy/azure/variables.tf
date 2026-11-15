@@ -9,10 +9,10 @@ variable "location" {
 
 variable "name" {
   type    = string
-  default = "dockhand"
+  default = "wms"
 }
 
 variable "image" {
   type    = string
-  default = "ghcr.io/adwitiyashukla/dockhand:latest"
+  default = "ghcr.io/adwitiyashukla/consumer-goods-warehouse-management-system:latest"
 }

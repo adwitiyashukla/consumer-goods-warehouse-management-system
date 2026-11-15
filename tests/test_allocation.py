@@ -6,9 +6,9 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 from sqlalchemy import select
 
-from dockhand.allocation import Candidate, plan_line
-from dockhand.generator import Plan
-from dockhand.models import Customer, Location, Lot, Sku, Stock
+from wms.allocation import Candidate, plan_line
+from wms.generator import Plan
+from wms.models import Customer, Location, Lot, Sku, Stock
 
 DAY = date(2026, 3, 2)
 

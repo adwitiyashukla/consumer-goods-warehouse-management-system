@@ -6,9 +6,9 @@ from fastapi import APIRouter, HTTPException
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.db import pairs
-from dockhand.deps import LayoutDep, SessionsDep
-from dockhand.models import (
+from wms.db import pairs
+from wms.deps import LayoutDep, SessionsDep
+from wms.models import (
     Appointment,
     Customer,
     Event,
@@ -22,7 +22,7 @@ from dockhand.models import (
     Tour,
     Wave,
 )
-from dockhand.schemas import stamp
+from wms.schemas import stamp
 
 router = APIRouter(prefix="/api", tags=["reports"])
 

@@ -11,11 +11,11 @@ from typing import Any
 
 import uvicorn
 
-from dockhand.app import create_app
-from dockhand.bench import bench, table
-from dockhand.config import Settings, load_settings
-from dockhand.db import migrate
-from dockhand.sim import demo, simulate, summary
+from wms.app import create_app
+from wms.bench import bench, table
+from wms.config import Settings, load_settings
+from wms.db import migrate
+from wms.sim import demo, simulate, summary
 
 
 def until(settings: Settings, clock: str | None) -> datetime | None:
@@ -47,7 +47,7 @@ def failed(report: dict[str, Any]) -> bool:
 
 
 def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(prog="dockhand")
+    parser = argparse.ArgumentParser(prog="wms")
     parser.add_argument("--config", default=None)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("migrate")

@@ -5,8 +5,8 @@ import httpx
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from dockhand.generator import Plan
-from dockhand.yard import Slot, assign_doors
+from wms.generator import Plan
+from wms.yard import Slot, assign_doors
 
 START = datetime(2026, 3, 2, 5, 0, tzinfo=UTC)
 

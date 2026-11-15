@@ -1,7 +1,7 @@
 from typing import Any
 
-from dockhand.config import Settings
-from dockhand.sim import simulate
+from wms.config import Settings
+from wms.sim import simulate
 
 
 def stable(report: dict[str, Any]) -> dict[str, Any]:

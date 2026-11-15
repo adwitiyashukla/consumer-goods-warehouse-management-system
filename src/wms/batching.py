@@ -3,9 +3,9 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 
-from dockhand.config import Batching, Routing
-from dockhand.layout import Layout, Point
-from dockhand.routing import route
+from wms.config import Batching, Routing
+from wms.layout import Layout, Point
+from wms.routing import route
 
 
 @dataclass(frozen=True)

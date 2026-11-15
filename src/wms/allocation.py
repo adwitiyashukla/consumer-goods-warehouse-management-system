@@ -7,8 +7,8 @@ from datetime import date, datetime, timedelta
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.db import log
-from dockhand.models import Allocation, Customer, Location, Lot, Order, OrderLine, Sku, Stock
+from wms.db import log
+from wms.models import Allocation, Customer, Location, Lot, Order, OrderLine, Sku, Stock
 
 
 @dataclass(frozen=True)

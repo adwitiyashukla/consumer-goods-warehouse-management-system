@@ -5,7 +5,7 @@ from sqlalchemy import Connection, text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.pool import NullPool
 
-from dockhand.models import Base
+from wms.models import Base
 
 LOCK = 73101
 

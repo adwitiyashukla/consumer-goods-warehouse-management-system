@@ -9,10 +9,10 @@ from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.db import log, now, pairs
-from dockhand.deps import SessionsDep, SettingsDep
-from dockhand.models import Appointment, Location
-from dockhand.schemas import AppointmentIn, At, DockIn, stamp
+from wms.db import log, now, pairs
+from wms.deps import SessionsDep, SettingsDep
+from wms.models import Appointment, Location
+from wms.schemas import AppointmentIn, At, DockIn, stamp
 
 router = APIRouter(prefix="/api", tags=["yard"])
 

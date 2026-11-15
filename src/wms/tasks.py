@@ -9,12 +9,12 @@ from sqlalchemy import exists, func, select, text, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand import idempotency
-from dockhand.config import ROUTINGS, Settings
-from dockhand.db import log, now
-from dockhand.deps import LayoutDep, SessionsDep, SettingsDep
-from dockhand.layout import Point
-from dockhand.models import (
+from wms import idempotency
+from wms.config import ROUTINGS, Settings
+from wms.db import log, now
+from wms.deps import LayoutDep, SessionsDep, SettingsDep
+from wms.layout import Point
+from wms.models import (
     Allocation,
     Appointment,
     Location,
@@ -27,9 +27,9 @@ from dockhand.models import (
     Tour,
     Wave,
 )
-from dockhand.outbound import OPEN_REPLEN, mark_picked
-from dockhand.routing import route
-from dockhand.schemas import At, CompleteIn, CountIn, NextIn, stamp
+from wms.outbound import OPEN_REPLEN, mark_picked
+from wms.routing import route
+from wms.schemas import At, CompleteIn, CountIn, NextIn, stamp
 
 router = APIRouter(prefix="/api", tags=["tasks"])
 

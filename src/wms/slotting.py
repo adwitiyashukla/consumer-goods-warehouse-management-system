@@ -3,8 +3,8 @@ from __future__ import annotations
 import random
 from collections.abc import Mapping, Sequence
 
-from dockhand.config import Slotting
-from dockhand.layout import Layout, Point
+from wms.config import Slotting
+from wms.layout import Layout, Point
 
 
 def ranked(frequency: Mapping[int, float]) -> list[int]:

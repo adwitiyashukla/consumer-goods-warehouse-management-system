@@ -8,13 +8,13 @@ from sqlalchemy import exists, func, select, text, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.allocation import allocate
-from dockhand.batching import Line, Unit, batch, split
-from dockhand.config import Batching, Routing, Settings
-from dockhand.db import log, now, pairs
-from dockhand.deps import LayoutDep, SessionsDep, SettingsDep
-from dockhand.layout import Layout, Point
-from dockhand.models import (
+from wms.allocation import allocate
+from wms.batching import Line, Unit, batch, split
+from wms.config import Batching, Routing, Settings
+from wms.db import log, now, pairs
+from wms.deps import LayoutDep, SessionsDep, SettingsDep
+from wms.layout import Layout, Point
+from wms.models import (
     Allocation,
     Appointment,
     Customer,
@@ -27,8 +27,8 @@ from dockhand.models import (
     Tour,
     Wave,
 )
-from dockhand.routing import route
-from dockhand.schemas import At, OrderIn, WaveIn, stamp
+from wms.routing import route
+from wms.schemas import At, OrderIn, WaveIn, stamp
 
 router = APIRouter(prefix="/api", tags=["outbound"])
 

@@ -9,8 +9,8 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.db import now
-from dockhand.models import IdempotencyKey
+from wms.db import now
+from wms.models import IdempotencyKey
 
 Key = Annotated[str | None, Header(alias="Idempotency-Key", max_length=80)]
 

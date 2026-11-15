@@ -69,7 +69,7 @@ export function App() {
     <div className="shell">
       <header className="signboard">
         <p className="brand">
-          <span className="name">dockhand</span>
+          <span className="name">Warehouse management</span>
           <span className="site">Distribution center 1, consumer goods</span>
         </p>
         <p className="clock" title="Time of the latest scan in the building">

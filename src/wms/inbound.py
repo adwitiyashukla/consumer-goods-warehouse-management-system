@@ -8,12 +8,12 @@ from sqlalchemy import exists, select, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand import idempotency
-from dockhand.db import log, now, pairs
-from dockhand.deps import LayoutDep, SessionsDep
-from dockhand.layout import Layout, Point
-from dockhand.models import Appointment, Asn, AsnLine, Location, Lot, Sku, Stock, Task
-from dockhand.schemas import AsnIn, ReceiveIn
+from wms import idempotency
+from wms.db import log, now, pairs
+from wms.deps import LayoutDep, SessionsDep
+from wms.layout import Layout, Point
+from wms.models import Appointment, Asn, AsnLine, Location, Lot, Sku, Stock, Task
+from wms.schemas import AsnIn, ReceiveIn
 
 router = APIRouter(prefix="/api", tags=["inbound"])
 

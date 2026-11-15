@@ -4,9 +4,9 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from dockhand.config import LayoutConfig
-from dockhand.layout import Layout, Point
-from dockhand.routing import largest_gap, optimal, route, sshape
+from wms.config import LayoutConfig
+from wms.layout import Layout, Point
+from wms.routing import largest_gap, optimal, route, sshape
 
 
 def make_layout(aisles: int = 4, bays: int = 5, depot: int = 0, pitch: float = 6.0) -> Layout:

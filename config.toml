@@ -1,5 +1,5 @@
 [database]
-url = "postgresql+asyncpg://dockhand:dockhand@localhost:5434/dockhand"
+url = "postgresql+asyncpg://wms:wms@localhost:5434/wms"
 pool_size = 10
 echo = false
 

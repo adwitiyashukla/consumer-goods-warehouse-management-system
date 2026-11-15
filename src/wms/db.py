@@ -9,8 +9,8 @@ from sqlalchemy import Executable, text
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 
-from dockhand.config import DatabaseConfig
-from dockhand.models import Base, Event
+from wms.config import DatabaseConfig
+from wms.models import Base, Event
 
 Sessions = async_sessionmaker[AsyncSession]
 
@@ -45,7 +45,7 @@ def log(session: AsyncSession, at: datetime, kind: str, ref: str, **data: Any) -
 
 def alembic_config(url: str) -> Config:
     cfg = Config()
-    cfg.set_main_option("script_location", "dockhand:migrations")
+    cfg.set_main_option("script_location", "wms:migrations")
     cfg.set_main_option("sqlalchemy.url", url.replace("%", "%%"))
     return cfg
 

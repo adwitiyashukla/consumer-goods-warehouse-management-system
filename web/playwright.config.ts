@@ -12,7 +12,7 @@ export default defineConfig({
     launchOptions: chromium ? { executablePath: chromium } : {},
   },
   webServer: {
-    command: "dockhand serve --demo --fresh",
+    command: "wms serve --demo --fresh",
     cwd: "..",
     url: "http://localhost:8000/api/health/ready",
     timeout: 600_000,

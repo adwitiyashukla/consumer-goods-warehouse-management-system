@@ -231,7 +231,7 @@ def async_url(url: str) -> str:
 
 
 def load_settings(path: str | Path | None = None) -> Settings:
-    source = Path(path or os.environ.get("DOCKHAND_CONFIG", "config.toml"))
+    source = Path(path or os.environ.get("WMS_CONFIG", "config.toml"))
     data = tomllib.loads(source.read_text(encoding="utf-8"))
     url = os.environ.get("DATABASE_URL")
     if url:

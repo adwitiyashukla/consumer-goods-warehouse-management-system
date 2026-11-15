@@ -30,18 +30,18 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: dockhand
-          POSTGRES_PASSWORD: dockhand
-          POSTGRES_DB: dockhand
+          POSTGRES_USER: wms
+          POSTGRES_PASSWORD: wms
+          POSTGRES_DB: wms
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U dockhand"
+          --health-cmd "pg_isready -U wms"
           --health-interval 2s
           --health-timeout 3s
           --health-retries 30
     env:
-      TEST_DATABASE_URL: postgresql://dockhand:dockhand@localhost:5432/dockhand
+      TEST_DATABASE_URL: postgresql://wms:wms@localhost:5432/wms
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -72,18 +72,18 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: dockhand
-          POSTGRES_PASSWORD: dockhand
-          POSTGRES_DB: dockhand
+          POSTGRES_USER: wms
+          POSTGRES_PASSWORD: wms
+          POSTGRES_DB: wms
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U dockhand"
+          --health-cmd "pg_isready -U wms"
           --health-interval 2s
           --health-timeout 3s
           --health-retries 30
     env:
-      DATABASE_URL: postgresql://dockhand:dockhand@localhost:5432/dockhand
+      DATABASE_URL: postgresql://wms:wms@localhost:5432/wms
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -109,25 +109,25 @@ jobs:
     needs: [test, web]
     steps:
       - uses: actions/checkout@v7
-      - run: docker build -t dockhand:ci .
+      - run: docker build -t wms:ci .
       - uses: helm/kind-action@v1
-      - run: kind load docker-image dockhand:ci --name chart-testing
+      - run: kind load docker-image wms:ci --name chart-testing
       - run: kubectl apply -f deploy/k8s/postgres.yaml -f deploy/k8s/app.yaml
       - run: kubectl rollout status statefulset/postgres --timeout=180s
-      - run: kubectl rollout status deployment/dockhand --timeout=300s
+      - run: kubectl rollout status deployment/wms --timeout=300s
       - run: kubectl apply -f deploy/k8s/smoke.yaml
       - name: wait for the smoke job
         run: |
           for attempt in $(seq 1 120); do
-            passed=$(kubectl get job dockhand-smoke -o jsonpath='{.status.succeeded}')
-            failed=$(kubectl get job dockhand-smoke -o jsonpath='{.status.failed}')
+            passed=$(kubectl get job wms-smoke -o jsonpath='{.status.succeeded}')
+            failed=$(kubectl get job wms-smoke -o jsonpath='{.status.failed}')
             if [ "$passed" = "1" ]; then exit 0; fi
             if [ -n "$failed" ] && [ "$failed" != "0" ]; then exit 1; fi
             sleep 5
           done
           exit 1
       - if: always()
-        run: kubectl logs job/dockhand-smoke --tail=40
+        run: kubectl logs job/wms-smoke --tail=40
 
   terraform:
     runs-on: ubuntu-latest
@@ -161,5 +161,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/dockhand:latest
-            ghcr.io/${{ github.repository_owner }}/dockhand:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}

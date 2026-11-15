@@ -5,12 +5,12 @@ from typing import Any
 
 from sqlalchemy import select
 
-from dockhand.config import ROUTINGS, Settings
-from dockhand.db import make_engine
-from dockhand.layout import Layout, Point
-from dockhand.models import Location, Task
-from dockhand.routing import route
-from dockhand.sim import simulate
+from wms.config import ROUTINGS, Settings
+from wms.db import make_engine
+from wms.layout import Layout, Point
+from wms.models import Location, Task
+from wms.routing import route
+from wms.sim import simulate
 
 SCENARIOS: list[tuple[str, dict[str, dict[str, Any]]]] = [
     ("sshape, fcfs", {"picking": {"routing": "sshape", "batching": "fcfs"}}),

@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from itertools import pairwise
 from typing import NamedTuple
 
-from dockhand.config import LayoutConfig
+from wms.config import LayoutConfig
 
 
 class Point(NamedTuple):

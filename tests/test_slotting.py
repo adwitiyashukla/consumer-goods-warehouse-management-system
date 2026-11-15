@@ -1,8 +1,8 @@
 import itertools
 
-from dockhand.config import LayoutConfig
-from dockhand.layout import Layout
-from dockhand.slotting import assign, classes, expected_travel
+from wms.config import LayoutConfig
+from wms.layout import Layout
+from wms.slotting import assign, classes, expected_travel
 
 LAYOUT = Layout(
     LayoutConfig(

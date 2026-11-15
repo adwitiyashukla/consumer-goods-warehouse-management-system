@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from dockhand.config import Settings, async_url, load_settings
+from wms.config import Settings, async_url, load_settings
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -47,5 +47,5 @@ def test_environment_url_wins(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_async_url_keeps_asyncpg_urls() -> None:
-    url = "postgresql+asyncpg://dockhand:dockhand@localhost:5432/dockhand"
+    url = "postgresql+asyncpg://wms:wms@localhost:5432/wms"
     assert async_url(url) == url

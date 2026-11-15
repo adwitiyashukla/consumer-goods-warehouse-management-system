@@ -6,8 +6,8 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import func, select
 
-from dockhand.generator import Plan
-from dockhand.models import Location, Stock, Task
+from wms.generator import Plan
+from wms.models import Location, Stock, Task
 
 
 async def post(client: httpx.AsyncClient, path: str, body: dict[str, Any], status: int = 200) -> Any:

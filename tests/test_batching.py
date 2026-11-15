@@ -1,10 +1,10 @@
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from dockhand.batching import Line, Unit, fcfs, savings, split
-from dockhand.config import LayoutConfig
-from dockhand.layout import Layout
-from dockhand.routing import optimal
+from wms.batching import Line, Unit, fcfs, savings, split
+from wms.config import LayoutConfig
+from wms.layout import Layout
+from wms.routing import optimal
 
 LAYOUT = Layout(
     LayoutConfig(

@@ -10,11 +10,11 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
-from dockhand import inbound, outbound, reports, tasks, yard
-from dockhand.config import Settings, load_settings
-from dockhand.db import make_engine, make_sessions
-from dockhand.deps import SessionsDep
-from dockhand.layout import Layout
+from wms import inbound, outbound, reports, tasks, yard
+from wms.config import Settings, load_settings
+from wms.db import make_engine, make_sessions
+from wms.deps import SessionsDep
+from wms.layout import Layout
 
 Warmup = Callable[[], Awaitable[None]]
 
@@ -27,7 +27,7 @@ def create_app(settings: Settings | None = None, warmup: Warmup | None = None) -
         try:
             await job()
         except Exception:
-            logging.getLogger("dockhand").exception("the demo day did not load")
+            logging.getLogger("wms").exception("the demo day did not load")
         finally:
             app.state.warming = False
 
@@ -41,7 +41,7 @@ def create_app(settings: Settings | None = None, warmup: Warmup | None = None) -
                 await task
         await engine.dispose()
 
-    app = FastAPI(title="dockhand", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="Warehouse management", version="0.1.0", lifespan=lifespan)
     app.state.warming = warmup is not None
     app.state.settings = settings
     app.state.engine = engine

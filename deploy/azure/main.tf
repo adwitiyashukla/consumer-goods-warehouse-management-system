@@ -51,7 +51,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   sku_name                      = "B_Standard_B1ms"
   storage_mb                    = 32768
   backup_retention_days         = 7
-  administrator_login           = "dockhand"
+  administrator_login           = "wms"
   administrator_password        = random_password.db.result
   public_network_access_enabled = true
 
@@ -68,7 +68,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "azure" {
 }
 
 resource "azurerm_postgresql_flexible_server_database" "main" {
-  name      = "dockhand"
+  name      = "wms"
   server_id = azurerm_postgresql_flexible_server.main.id
   charset   = "UTF8"
   collation = "en_US.utf8"
@@ -89,7 +89,7 @@ resource "azurerm_container_app" "main" {
 
   secret {
     name  = "database-url"
-    value = "postgresql://dockhand:${random_password.db.result}@${azurerm_postgresql_flexible_server.main.fqdn}:5432/dockhand?sslmode=require"
+    value = "postgresql://wms:${random_password.db.result}@${azurerm_postgresql_flexible_server.main.fqdn}:5432/wms?sslmode=require"
   }
 
   ingress {
@@ -107,11 +107,11 @@ resource "azurerm_container_app" "main" {
     max_replicas = 1
 
     container {
-      name    = "dockhand"
+      name    = "wms"
       image   = var.image
       cpu     = 0.5
       memory  = "1Gi"
-      command = ["dockhand", "serve", "--demo"]
+      command = ["wms", "serve", "--demo"]
 
       env {
         name        = "DATABASE_URL"

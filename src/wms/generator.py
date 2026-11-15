@@ -9,11 +9,11 @@ from typing import Any
 from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dockhand.config import Settings
-from dockhand.db import pairs
-from dockhand.layout import Layout, Point
-from dockhand.models import Customer, Location, Lot, Sku, Stock
-from dockhand.slotting import assign, classes
+from wms.config import Settings
+from wms.db import pairs
+from wms.layout import Layout, Point
+from wms.models import Customer, Location, Lot, Sku, Stock
+from wms.slotting import assign, classes
 
 PRODUCTS = {
     "laundry": ["Liquid detergent", "Laundry pods", "Fabric softener", "Stain remover", "Dryer sheets"],

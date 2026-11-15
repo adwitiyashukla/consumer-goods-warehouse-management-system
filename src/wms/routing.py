@@ -6,8 +6,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from itertools import pairwise
 
-from dockhand.config import Routing
-from dockhand.layout import Layout, Point
+from wms.config import Routing
+from wms.layout import Layout, Point
 
 State = tuple[int, int, bool, bool, bool, bool]
 

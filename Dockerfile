@@ -13,7 +13,7 @@ COPY src ./src
 RUN pip install --no-cache-dir .
 COPY config.toml ./
 COPY --from=web /web/dist ./web/dist
-RUN useradd --create-home --uid 1000 dockhand
-USER dockhand
+RUN useradd --create-home --uid 1000 wms
+USER wms
 EXPOSE 8000
-CMD ["dockhand", "serve"]
+CMD ["wms", "serve"]

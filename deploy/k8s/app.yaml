@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dockhand
+  name: wms
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: dockhand
+      app: wms
   template:
     metadata:
       labels:
-        app: dockhand
+        app: wms
     spec:
       containers:
-        - name: dockhand
-          image: dockhand:ci
+        - name: wms
+          image: wms:ci
           imagePullPolicy: IfNotPresent
           env:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: dockhand-db
+                  name: wms-db
                   key: DATABASE_URL
           ports:
             - containerPort: 8000
@@ -45,10 +45,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dockhand
+  name: wms
 spec:
   selector:
-    app: dockhand
+    app: wms
   ports:
     - port: 8000
       targetPort: 8000

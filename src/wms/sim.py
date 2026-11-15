@@ -15,12 +15,12 @@ import httpx
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import func, select, text
 
-from dockhand.app import create_app
-from dockhand.config import Settings
-from dockhand.db import make_engine, make_sessions, wipe
-from dockhand.generator import OrderPlan, Plan, seed
-from dockhand.layout import Layout, Point
-from dockhand.models import Location
+from wms.app import create_app
+from wms.config import Settings
+from wms.db import make_engine, make_sessions, wipe
+from wms.generator import OrderPlan, Plan, seed
+from wms.layout import Layout, Point
+from wms.models import Location
 
 DEMO_LOCK = 73105
 
@@ -335,7 +335,7 @@ async def simulate(
     app = create_app(settings)
     try:
         transport = httpx.ASGITransport(app=app)
-        async with httpx.AsyncClient(transport=transport, base_url="http://dockhand", timeout=120) as client:
+        async with httpx.AsyncClient(transport=transport, base_url="http://wms", timeout=120) as client:
             return await drive(Sim(client, settings, plan, until), ahead)
     finally:
         await app.state.engine.dispose()

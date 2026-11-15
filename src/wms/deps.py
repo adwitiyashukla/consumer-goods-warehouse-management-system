@@ -4,9 +4,9 @@ from typing import Annotated, cast
 
 from fastapi import Depends, Request
 
-from dockhand.config import Settings
-from dockhand.db import Sessions
-from dockhand.layout import Layout
+from wms.config import Settings
+from wms.db import Sessions
+from wms.layout import Layout
 
 
 def get_sessions(request: Request) -> Sessions:
